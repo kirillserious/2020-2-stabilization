@@ -1,0 +1,72 @@
+\subsection{Построение математической модели}
+
+Рассмотрим ``перевёрнутый'' маятник, схематично изображённый на Рис.~\ref{img:balance_picture}.
+Будем считать, что вся масса маятника сосредоточенна в одной точке~--- точке маятника, максимально удалённой от шарнира.
+Кроме того считаем, что сила сопротивления спиралевидной пружины приложена к той же точке.
+
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{0.45\linewidth}
+		\centering
+		\input{resources/balance_picture.schema}
+	\end{minipage}
+	\begin{minipage}{0.45\linewidth}
+		\centering
+		\input{resources/balance_forces.schema}
+	\end{minipage}
+	\caption{Схематичное изображение маятника и сил, приложенных к нему.}
+	\label{img:balance_picture}
+\end{figure}
+
+Пусть в момент времени~$t$ перемещение шарнира характеризуется функцией $s(t)$, а угловое отклонение маятника~--- функцией~$\varphi(t)$.
+Обозначим за $H(t)$ и $V(t)$ соответственно горизонтальную и вертикальную силы реакции, приложенные к шарниру, а за $J$~--- момент инерции маятника относительно оси, проведённой через груз (так как вся масса маятника содержится в грузе, то $J = 0$).
+Остальные использованные параметры описаны в предыдущем разделе.
+Тогда для рассматриваемой системы справедливы следующие уравнения:
+\begin{equation} \label{eq:modeling_1}
+	\begin{aligned}
+& m \frac{d^2}{dt^2}(s(t) + l \sin\varphi(t)) = H(t) - \xi\varphi(t)\cos\varphi(t);
+\\
+& m \frac{d^2}{dt^2}(l \cos\varphi(t)) = V(t) + \xi\varphi(t)\sin\varphi(t) - mg;
+\\
+& J \frac{d^2}{dt^2}\varphi(t) = lV(t)\sin\varphi(t) - lH(t)\cos\varphi(t) = 0;
+\\
+& M\frac{d^2}{dt^2}s(t) = u(t) - H(t) - k\frac{d}{dt}s(t).
+	\end{aligned}
+\end{equation}
+
+С целью упрощения уравнений предположим, что масса груза $m$ много меньше массы тележки $M$, и поэтому пренебрежем горизонтальной реакцией $H(t)$ на движение тележки.
+В итоге после преобразований уравнений \eqref{eq:modeling_1} получим:
+\begin{equation*}
+	\begin{aligned}
+&m \ddot s(t) + ml\ddot\varphi(t)\cos\varphi(t) - ml\varphi^2(t)\sin\varphi(t) = H(t) - \xi\varphi(t)\cos\varphi(t);
+\\
+&-ml\ddot\varphi(t)\sin\varphi(t) - ml\dot\varphi^2(t)\cos\varphi(t) = V(t) - mg + \xi\varphi(t)\sin\varphi(t);
+\\
+&V(t) = \frac{\cos\varphi(t)}{\sin\varphi(t)}H(t);
+\\
+&M\ddot s(t) = u(t) - k\dot s(t).
+	\end{aligned}
+\end{equation*}
+
+Исключив из последних соотношений $H(t)$ и $V(t)$ получим окончательный закон движения рассматриваемой системы тел:
+\begin{equation}\label{eq:modeling_equation}
+	\begin{aligned}
+&\ddot\varphi + \frac{\xi}{ml}\varphi - \frac{g}{l}\sin\varphi + \frac{1}{l}\ddot s \cos \varphi = 0;
+\\
+&M\ddot s = u - k\dot s.
+	\end{aligned}
+\end{equation}
+Таким образом, введя вектор $x = [\varphi,\,\dot\varphi,\,s,\,\dot s]\T$, получим нелинеаризованную систему:
+\begin{equation}\label{eq:modeling_system}
+	\left\{
+	\begin{aligned}
+\dot x_1 &= x_2
+\\
+\dot x_2 &= -\frac{\xi}{ml}x_1 + \frac{g}{l}\sin x_1 - \frac{1}{Ml}(u - kx_4)\cos x_1
+\\
+\dot x_3 &= x_4
+\\
+\dot x_4 &= \frac{u}{M} - \frac{k}{M}x_4.
+	\end{aligned}
+	\right.
+\end{equation}

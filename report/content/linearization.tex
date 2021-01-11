@@ -1,0 +1,64 @@
+\subsection{Линеаризация модели}
+
+Разложив в ряд Тейлора синусы и косинусы в уравнении~\eqref{eq:modeling_equation} в окрестности интересующего нас положения $\varphi = 0$, получим следующую линеаризацию:
+$$
+	\ddot \varphi + \frac{\xi - mg}{ml} \varphi + \frac{1}{l} \ddot s = 0.
+$$
+
+Для упрощения дальнейших рассуждений мы введем новый вектор состояний, первая компонента которого будет представлять аппроксимацию перемещения груза, то есть
+$$
+	z(t) = [s(t) + l\varphi(t),\,\dot s(t) + l\dot\varphi(t),\,s(t),\,\dot s(t)]\T.
+$$
+Таким образом получили линеаризованную систему:
+\begin{equation}\label{eq:linear_system}
+	\left\{
+	\begin{aligned}
+\dot z_1 &= z_2
+\\
+\dot z_2 &= \frac{mg - \xi}{ml} (z_1 - z_3)
+\\
+\dot z_3 &= z_4
+\\
+\dot z_4 &= \frac{u}{M} - \frac{k}{M}z_4.
+	\end{aligned}
+	\right.
+	\Longleftrightarrow
+	\dot z =
+	\begin{pmatrix}
+0 & 1 & 0 & 0
+\\
+\frac{mg - \xi}{ml} & 0 & -\frac{mg - \xi}{ml} & 0
+\\
+0 & 0 & 0 & 1
+\\
+0 & 0 & 0 & -\frac{k}{M}
+	\end{pmatrix}
+	z
+	+
+	\begin{pmatrix}
+0 \\ 0 \\ 0 \\ \frac{1}{M}
+	\end{pmatrix}
+	u.
+\end{equation}
+
+Рассмотрим вопрос об управляемости получившейся системы. Воспользуемся следующей теоремой.
+\begin{theorem}[Уточнённый критерий Калмана]
+	Система $\dot x = Ax + Bu$, $A \in \setR^{n\times n}$, $B \in \setR^{n \times m}$ является полностью управляемой тогда и только тогда, когда ранг матрицы управляемости $C = [B,\,AB,\,\ldots,\,A^{n-m}B]$ равен $n$.
+\end{theorem}
+Составим матрицу управляемости для линеаризованной системы и посчитаем её определитель.
+$$
+	C = [B,\,AB,\,A^2 B,\, A^3B] = 
+	\begin{pmatrix}
+0 & 0 & 0 & \frac{\xi - mg}{M m l}
+\\
+0 & 0 & \frac{\xi - mg}{M m l} & -k\frac{\xi - mg}{M^2ml}
+\\
+0 & \frac{1}{M} & -\frac{k}{M^2} & \frac{k^2}{M^3}
+\\
+\frac{1}{M} & -\frac{k}{M^2} & \frac{k^2}{M^3} & -\frac{k^3}{M^4}
+	\end{pmatrix},
+$$
+$$
+	\mathrm{det}\,C = \frac{(\xi - mg)^2}{M^4m^2l^2}.
+$$
+Получается, если $\xi \neq mg$, то $\mathrm{rank}\,C = n$, а, значит, линеаризованная система полностью управляема.

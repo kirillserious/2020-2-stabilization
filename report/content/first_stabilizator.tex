@@ -1,0 +1,56 @@
+\subsection{Линейный стабилизатор по полной обратной связи}
+
+Из курса <<Теории стабилизации>> помним, что для системы $\dot x = Ax + Bu$ либо всегда существует линейный стабилизатор, либо не существует никакого стабилизатора.
+Итак замкнем систему \eqref{eq:linear_system} управлением вида $u = Kx$.
+Тогда имеем:
+\begin{equation}\label{eq:first_1}
+	\dot x = (A + BK)x,
+\end{equation}
+где $K = [k_{i}] \in \setR^{1 \times 4}$~--- искомая матрица.
+
+Требуется найти такую матрицу $K$, чтобы система \eqref{eq:first_1} была асимптотически устойчива, причём собственные числа матрицы $(A+BK)$ были равны эталонным наперёд заданным $\mu_1,\,\ldots,\,\mu_n$.
+
+Найдем характеристический полином матрицы $(A + BK)$:
+\begin{multline}
+	\chi(A + BK)
+	=
+	\lambda^4
+	-\frac{k_4 + k}{M}\lambda^3
+	+\left(
+		\frac{\xi}{ml}
+		-
+		\frac{g}{l}
+		-
+		\frac{k_3}{M}
+	\right)
+	\lambda^2
+	+
+	\\
+	+\left(
+		\frac{k_2 g + k_4 g - kg - k_2\xi}{Ml}
+		+
+		\frac{k\xi - k_2\xi - k_4\xi}{Mml}
+	\right)
+	\lambda
+	 + \frac{k_1g + k_3g}{Ml} - \frac{k_1\xi + k_3\xi}{Mlm}.
+\end{multline}
+Обозначим за $d = [d_i] \in \setR^{4 \times 1}$ коэффициенты эталонного полинома
+$$
+	\psi(\lambda) = \prod_{i = 1}^{n} (\lambda - \mu_i).
+$$
+Тогда искомая матрица $K$ удовлетворяет уравнению:
+$$
+\begin{pmatrix}
+0 & 0 & 0 & -\frac{1}{M} \\
+0 & 0 & -\frac{1}{M} & 0 \\
+0 & \frac{mg - \xi}{Mml} & 0 & \frac{mg - \xi}{Mml} \\
+\frac{mg - \xi}{Mml} & 0 & \frac{mg - \xi}{Mml} & 0
+\end{pmatrix}
+K\T
+=
+d
+-
+\begin{pmatrix}
+- \frac{k}{M} \\ \frac{\xi - mg}{ml} \\ \frac{k}{Mml}(\xi - mg) \\ 0
+\end{pmatrix}.
+$$
